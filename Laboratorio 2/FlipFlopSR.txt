@@ -1,0 +1,78 @@
+--Integrantes Laura Arango, Tania Obando, Verónica Tofiño
+
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity FlipFlopSR is
+port (
+	vector: in  std_logic_vector (3 downto 0);
+	T: in std_logic;
+	clock: in std_logic;
+	Reset: in std_logic;
+	salida: out std_logic_vector(3 downto 0)
+);
+end entity;
+
+architecture FlipFlopSR_arch of FlipFlopSR is
+	shared variable Set1,Set2,Set3,Set4,Q1,Q2,Q3,Q4 : std_logic;
+begin
+
+	process(vector,T,clock,Reset) is
+	begin 
+		if rising_edge (clock) then 
+			Set1:= vector(0) and T;
+			Set2:= vector(1) and T;
+			Set3:= vector(2) and T;
+			Set4:= vector(3) and T;
+			if Reset = '0' and Set1 = '0' then
+				Q1 := Q1;
+			elsif Reset = '1' and Set1 = '0' then 
+				Q1 := '0';
+			elsif Set1 = '1' and Reset = '0' then
+				Q1 := '1';
+			else
+				assert Reset = '1' and Set1 = '1'
+					report "ERROR"
+					severity ERROR;
+			end if;
+			if Reset = '0' and Set2 = '0' then
+				Q2 := Q2;
+			elsif Reset = '1' and Set2 = '0' then 
+				Q2 := '0';
+			elsif Set2 = '1' and Reset = '0' then
+				Q2 := '1';
+			else
+				assert Reset = '1' and Set2 = '1'
+					report "ERROR"
+					severity ERROR;
+			end if;
+			if Reset = '0' and Set3 = '0' then
+				Q3 := Q3;
+			elsif Reset = '1' and Set3 = '0' then 
+				Q3 := '0';
+			elsif Set3 = '1' and Reset = '0' then
+				Q3 := '1';
+			else
+				assert Reset = '1' and Set3 = '1'
+					report "ERROR"
+					severity ERROR;
+			end if;
+			if Reset = '0' and Set4 = '0' then
+				Q4 := Q4;
+			elsif Reset = '1' and Set4 = '0' then 
+				Q4 := '0';
+			elsif Set4 = '1' and Reset = '0' then
+				Q4 := '1';
+			assert Reset = '1' and Set4 = '1'
+					report "ERROR"
+					severity ERROR;
+			end if;
+		end if;
+	salida(0)<=Q1;
+	salida(1)<=Q2;
+	salida(2)<=Q3;
+	salida(3)<=Q4;
+	end process;
+
+end architecture;
+		
